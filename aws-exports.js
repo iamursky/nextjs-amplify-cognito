@@ -6,8 +6,9 @@ module.exports = {
     mandatorySignIn: false,
     cookieStorage: {
       domain: ".ok-cognito-amplify.vercel.app",
-      path: "/",
       expires: 365,
+      path: "/",
+      sameSite: "strict",
       secure: true,
     },
     oauth: {
