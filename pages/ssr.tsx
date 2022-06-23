@@ -18,13 +18,12 @@ const SSRPage: FC<ISSRPageProps> = ({ data }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { Auth } = withSSRContext(ctx);
-
+export const getServerSideProps: GetServerSideProps<ISSRPageProps> = async (ctx) => {
   try {
+    const { Auth } = withSSRContext(ctx);
     const session = await Auth.currentSession();
     const token = session.getAccessToken().getJwtToken();
-    const data = fetch("https://messangers-ok-wiki.web.app/api/usersFromAWS", {
+    const data = await fetch("https://messangers-ok-wiki.web.app/api/usersFromAWS", {
       headers: { Authorization: "Bearer " + token },
       method: "GET",
       mode: "cors",
@@ -33,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .then((data) => JSON.stringify(data, null, 2));
 
     return { props: { data } };
-  } catch {
+  } catch (err) {
     return {
       redirect: {
         destination: "/",
