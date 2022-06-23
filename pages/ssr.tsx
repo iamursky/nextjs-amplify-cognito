@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import type { GetServerSideProps } from "next";
 
-import { withSSRContext } from "aws-amplify";
+import { Amplify, withSSRContext } from "aws-amplify";
+import awsExports from "../aws-exports";
 
 interface ISSRPageProps {
   data: string;
@@ -20,7 +21,9 @@ const SSRPage: FC<ISSRPageProps> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps<ISSRPageProps> = async (ctx) => {
   try {
+    Amplify.configure(awsExports);
     const { Auth } = withSSRContext(ctx);
+
     const session = await Auth.currentSession();
     const token = session.getAccessToken().getJwtToken();
     const data = await fetch("https://messangers-ok-wiki.web.app/api/usersFromAWS", {
