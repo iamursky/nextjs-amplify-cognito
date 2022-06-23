@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { GetServerSideProps } from "next";
+import type { FC } from "react";
+import type { GetServerSideProps } from "next";
 
 import { Amplify, Auth } from "aws-amplify";
 import awsExports from "../aws-exports";

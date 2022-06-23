@@ -1,11 +1,55 @@
 import type { NextPage } from "next";
+import type { CognitoUser } from "@aws-amplify/auth";
 
-import { useUser } from "../hooks/use-user";
-import { useApi } from "../hooks/use-api";
+import { Amplify, Auth, Hub } from "aws-amplify";
+import { useCallback, useEffect, useState } from "react";
+import awsExports from "../aws-exports";
 
 const HomePage: NextPage = () => {
-  const { user, signIn, signOut } = useUser();
-  const { data, getApiData } = useApi();
+  const [data, setData] = useState<string>("Call API to get data...");
+  const [user, setUser] = useState<CognitoUser | null>(null);
+
+  const getApiData = useCallback(() => {
+    Auth.currentSession()
+      .then((session) => session.getAccessToken().getJwtToken())
+      .then((token) =>
+        fetch("https://messangers-ok-wiki.web.app/api/usersFromAWS", {
+          headers: { Authorization: "Bearer " + token },
+          method: "GET",
+          mode: "cors",
+        }).then((res) => res.json())
+      )
+      .then((data) => setData(JSON.stringify(data, null, "\t")));
+  }, []);
+
+  const signIn = useCallback(() => {
+    Auth.federatedSignIn();
+  }, []);
+
+  const signOut = useCallback(() => {
+    Auth.signOut();
+  }, []);
+
+  useEffect(() => {
+    Amplify.configure(awsExports);
+    Hub.listen("auth", ({ payload: { event } }) => {
+      switch (event) {
+        case "signIn":
+        case "cognitoHostedUI":
+        case "configured":
+          Auth.currentAuthenticatedUser()
+            .then((user) => setUser(user))
+            .catch(() => setUser(null));
+          break;
+
+        case "signOut":
+        case "signIn_failure":
+        case "cognitoHostedUI_failure":
+          setUser(null);
+          break;
+      }
+    });
+  }, []);
 
   return user ? (
     <div>
