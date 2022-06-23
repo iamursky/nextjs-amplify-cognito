@@ -8,7 +8,7 @@ module.exports = {
       domain: ".testing-saml.auth.us-east-1.amazoncognito.com",
       expires: 365,
       path: "/",
-      sameSite: "Lux",
+      sameSite: "lax",
       secure: true,
     },
     oauth: {
