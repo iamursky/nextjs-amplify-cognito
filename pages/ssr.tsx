@@ -21,7 +21,7 @@ const SSRPage: FC<ISSRPageProps> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    Amplify.configure(awsExports);
+    Amplify.configure({ ...awsExports, ssr: true });
     const session = await Auth.currentSession();
     const token = session.getAccessToken().getJwtToken();
     const data = fetch("https://messangers-ok-wiki.web.app/api/usersFromAWS", {

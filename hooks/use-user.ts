@@ -17,20 +17,22 @@ export function useUser() {
   }, []);
 
   useEffect(() => {
-    Amplify.configure(awsExports);
+    Amplify.configure({ ...awsExports, ssr: true });
     Hub.listen("auth", ({ payload: { event } }) => {
       switch (event) {
         case "signIn":
         case "cognitoHostedUI":
         case "configured":
-          return Auth.currentAuthenticatedUser()
+          Auth.currentAuthenticatedUser()
             .then((user) => setUser(user))
             .catch(() => setUser(null));
+          break;
 
         case "signOut":
         case "signIn_failure":
         case "cognitoHostedUI_failure":
-          return setUser(null);
+          setUser(null);
+          break;
       }
     });
   }, []);
