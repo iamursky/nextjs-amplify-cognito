@@ -1,11 +1,8 @@
 import type { NextPage } from "next";
 import type { CognitoUser } from "@aws-amplify/auth";
 
-import { Amplify, Auth, Hub } from "aws-amplify";
+import { Auth, Hub } from "aws-amplify";
 import { useCallback, useEffect, useState } from "react";
-import awsExports from "../aws-exports";
-
-Amplify.configure({ ...awsExports, ssr: true });
 
 const HomePage: NextPage = () => {
   const [data, setData] = useState<string>("Call API to get data...");

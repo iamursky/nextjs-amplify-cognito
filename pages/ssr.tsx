@@ -1,14 +1,11 @@
 import type { FC } from "react";
 import type { GetServerSideProps } from "next";
 
-import { Amplify, Auth } from "aws-amplify";
-import awsExports from "../aws-exports";
+import { Auth } from "aws-amplify";
 
 interface ISSRPageProps {
   data: string;
 }
-
-Amplify.configure({ ...awsExports, ssr: true });
 
 const SSRPage: FC<ISSRPageProps> = ({ data }) => {
   return (
