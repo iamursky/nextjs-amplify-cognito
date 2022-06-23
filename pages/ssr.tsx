@@ -21,7 +21,7 @@ const SSRPage: FC<ISSRPageProps> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps<ISSRPageProps> = async (ctx) => {
   try {
-    Amplify.configure(awsExports);
+    Amplify.configure({ ...awsExports, ssr: true });
     const { Auth } = withSSRContext(ctx);
 
     const session = await Auth.currentSession();

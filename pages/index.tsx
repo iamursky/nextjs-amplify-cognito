@@ -18,7 +18,7 @@ const HomePage: NextPage = () => {
           mode: "cors",
         }).then((res) => res.json())
       )
-      .then((data) => setData(JSON.stringify(data, null, "\t")));
+      .then((data) => setData(JSON.stringify(data, null, 2)));
   }, []);
 
   const signIn = useCallback(() => {
