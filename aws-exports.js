@@ -5,11 +5,9 @@ module.exports = {
     userPoolWebClientId: "2p20jmvbidrjf5rkcd311n5sie",
     mandatorySignIn: false,
     cookieStorage: {
-      domain: ".testing-saml.auth.us-east-1.amazoncognito.com",
+      domain: "testing-saml.auth.us-east-1.amazoncognito.com",
       expires: 365,
       path: "/",
-      sameSite: "lax",
-      secure: true,
     },
     oauth: {
       domain: "testing-saml.auth.us-east-1.amazoncognito.com",
