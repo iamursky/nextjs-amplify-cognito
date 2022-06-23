@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import type { GetServerSideProps } from "next";
 
-import { Auth } from "aws-amplify";
+import { withSSRContext } from "aws-amplify";
 
 interface ISSRPageProps {
   data: string;
@@ -18,7 +18,9 @@ const SSRPage: FC<ISSRPageProps> = ({ data }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { Auth } = withSSRContext(ctx);
+
   try {
     const session = await Auth.currentSession();
     const token = session.getAccessToken().getJwtToken();

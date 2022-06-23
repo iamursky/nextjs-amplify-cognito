@@ -3,14 +3,13 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 
 import { Amplify } from "aws-amplify";
-import awsExports from "../aws-exports";
 import { useEffect } from "react";
 
-Amplify.configure({ ...awsExports, ssr: true });
+import awsExports from "../aws-exports";
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    // Amplify.configure(awsExports);
+    Amplify.configure(awsExports);
   }, []);
 
   return <Component {...pageProps} />;
