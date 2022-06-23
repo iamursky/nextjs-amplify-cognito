@@ -5,10 +5,10 @@ module.exports = {
     userPoolWebClientId: "2p20jmvbidrjf5rkcd311n5sie",
     mandatorySignIn: false,
     cookieStorage: {
-      domain: ".ok-cognito-amplify.vercel.app",
+      domain: ".testing-saml.auth.us-east-1.amazoncognito.com",
       expires: 365,
       path: "/",
-      sameSite: "strict",
+      sameSite: "Lux",
       secure: true,
     },
     oauth: {
