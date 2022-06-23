@@ -16,9 +16,11 @@ const HomePage: NextPage = () => {
           headers: { Authorization: "Bearer " + token },
           method: "GET",
           mode: "cors",
-        }).then((res) => res.json())
+        })
       )
-      .then((data) => setData(JSON.stringify(data, null, 2)));
+      .then((res) => res.json())
+      .then((data) => JSON.stringify(data, null, 2))
+      .then(setData);
   }, []);
 
   const signIn = useCallback(() => {
@@ -61,7 +63,7 @@ const HomePage: NextPage = () => {
       <h2>API Data:</h2>
       <button onClick={getApiData}>Call API</button>
       <pre>
-        <code>{JSON.stringify(data, null, 2)}</code>
+        <code>{data}</code>
       </pre>
     </div>
   ) : (
